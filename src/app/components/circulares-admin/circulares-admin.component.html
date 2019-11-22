@@ -1,0 +1,82 @@
+<div *ngIf="lengthItems == 0">
+  <h1 class="text-center">
+    !No se encontraron circulares!
+  </h1>
+
+  <div class="mt-3 text-center">
+    <a [routerLink]="['/carga']" class="btn btn-outline-primary">
+      Crear Circular
+    </a>
+  </div>
+</div>
+
+<div *ngIf="lengthItems !== 0">
+  <h1 class="text-center mb-3" *ngIf="lengthItems === 1">
+    {{ lengthItems }} Circular
+  </h1>
+
+  <h1 class="text-center mb-3" *ngIf="lengthItems > 1">
+    {{ lengthItems }} Circulares
+  </h1>
+
+  <div class="row">
+    <div class="col-md-4 col-sm-6 col-xs-12" *ngFor="let item of images">
+      <div class="mx-auto" id="gallery">
+        <div class="flex items-center justify-center my-4">
+          <div class="w-full">
+            <div class="bg-white shadow-xl rounded-lg overflow-hidden position-relative">
+              <div class="bg-cover bg-center h-56 p-4" [ngStyle]="{'background-image': 'url(' + item.payload.doc.data().url + ')'}">
+                <div class="ctn-icons">
+                  <i class="fa fa-camera icon-view" title="Ver Circular" (click)="verCircular($event)"></i>
+                  <i class="fa fa-trash icon-remove" title="Eliminar Circular" [id]="item.payload.doc.id" (click)="eliminarCircular($event)"></i>
+                </div>
+              </div>
+
+              <div class="p-4">
+                <p class="uppercase tracking-wide text-sm font-bold text-gray-700">
+                  {{ item.payload.doc.data().title ? item.payload.doc.data().title : 'Sin Título' }}
+                </p>
+
+                <p class="text-gray-700">
+                  {{ item.payload.doc.data().desc ? item.payload.doc.data().desc : 'Sin Descripción' }}
+                </p>
+              </div>
+              
+              <div class="px-4 pt-3 pb-4 border-t border-gray-300 bg-gray-100">
+                <div class="text-xs uppercase font-bold text-gray-600 tracking-wide">
+                  Creator
+                </div>
+    
+                <div class="flex items-center pt-2">
+                  <div class="bg-cover bg-center w-10 h-10 rounded-full mr-3" style="background-image: url('http://crianbluff.com/imgs/imgs-general/modals/modal-creator-web/avatar-creator-web/avatar-creator-web.jpg')">
+                </div>
+                
+                <div>
+                  <p class="font-bold text-gray-900">
+                    Cristian Castillo
+                  </p>
+
+                  <p class="text-sm text-gray-700">
+                    (+57) 310 809 87 93
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modal-lightbox" class="modal-lightbox" (click)="cerrarModalClickFuera($event)">
+	<div class="ctn-modal-lightbox" (click)="stopPropagation($event)">
+		<div id="close-modal-lightbox" class="close-modal-lightbox" (click)="closeModal()">
+			<i class="fa fa-times"></i>
+		</div>
+
+		<div class="modal-lightbox-body">
+			<img>
+		</div>
+	</div>
+</div>

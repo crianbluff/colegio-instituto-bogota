@@ -1,0 +1,117 @@
+<div class="row">
+  <div class="col-md-12">    
+    <form enctype="multipart/form-data">
+      <label class="label" [ngClass]="{'file-over': estaSobreElemento}">
+        <span class="title">
+          Haz click para seleccionar tus imagenes o deja caer aquí los archivos.
+        </span>
+
+        <img src="assets/images/drop-images.png" alt="Cargar Imágen" title="Cargar Imágen">
+        <input type="file" appNgDropFiles (mouseSobre)="estaSobreElemento = $event" [archivos]="archivos" accept="image/*" multiple="multiple" required="required">
+      </label>
+    </form>
+  </div>
+
+  <!-- {{ archivos | json }} -->
+  
+  <div class="col-md-12 mt-5">
+    <button type="button" class="btn btn-success mx-2" (click)="cargarImagenes()" [disabled]="archivos.length === 0 || estanSubiendo">
+      Cargar Circular
+      <i class="fa fa-refresh icon-refresh" [ngClass]="{rotate: estanSubiendo}" *ngIf="estanSubiendo"></i>
+    </button>
+
+    <button type="button" class="btn btn-danger mx-2" (click)="limpiarArchivos()">
+      Limpiar
+    </button>
+
+    <button type="button" disabled="disabled" class="btn btn-secondary mx-2">
+      {{ archivos.length }}
+    </button>
+
+    <!-- <table mat-table [dataSource]="dataSource"> -->
+      <!-- <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+      </ng-container> -->
+
+      <!-- <ng-container matColumnDef="imgPreview">
+        <th mat-header-cell *matHeaderCellDef> Imagen </th>
+        <td mat-cell *matCellDef="let element"> {{element.urlPrevisualizacion}} </td>
+      </ng-container> -->
+  
+      <!-- <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef> Título </th>
+        <td mat-cell *matCellDef="let element"> {{element.archivo.title}} </td>
+      </ng-container> -->
+
+      <!-- <ng-container matColumnDef="desc">
+        <th mat-header-cell *matHeaderCellDef> Descripción </th>
+        <td mat-cell *matCellDef="let element"> {{element.desc}} </td>
+      </ng-container> -->
+
+      <!-- <ng-container matColumnDef="size">
+        <th mat-header-cell *matHeaderCellDef> Tamaño </th>
+        <td mat-cell *matCellDef="let element"> {{(element.archivo.size / 1024 / 1024 | number: '.2-2')}}MB </td>
+      </ng-container> -->
+  
+      <!-- <ng-container matColumnDef="progreso">
+        <th mat-header-cell *matHeaderCellDef> Progreso </th>
+        <td mat-cell *matCellDef="let element"> {{element.progreso}} </td>
+      </ng-container> -->
+  
+      <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table> -->
+  
+    <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator> -->
+
+    <div class="table-responsive">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th>Imagen</th>
+            <th>Título</th>
+            <th>Descripción</th>
+            <th>Tamaño</th>
+            <th>Progreso</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let archivo of archivos">
+            <td>
+              <img [src]="archivo.urlPrevisualizacion" [alt]="archivo.nombreArchivo" [title]="archivo.nombreArchivo" width="200px" class="m-auto">
+            </td>
+
+            <td>
+              <mat-form-field>
+                <input matInput [(ngModel)]="archivo.title" #title="ngModel" [value]="archivo.title" placeholder="Título">
+              </mat-form-field>
+            </td>
+
+            <td>
+              <mat-form-field>
+                <input matInput [(ngModel)]="archivo.desc" #desc="ngModel" [value]="archivo.desc" placeholder="Descripción">
+              </mat-form-field>
+            </td>
+
+            <td>
+              <mat-form-field>
+                <input matInput [value]="(archivo.archivo.size / 1024 / 1024 | number: '.2-2') + ' MB'" disabled="disabled">
+              </mat-form-field>
+            </td>
+            
+            <td>
+              <mat-progress-bar mode="determinate" [value]="archivo.progreso" [ngClass]="{'success': archivo.progreso >= 100}"></mat-progress-bar>
+
+              <!-- <div class="progress">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': archivo.progreso + '%' }" [ngClass]="{'bg-success': archivo.progreso >= 100}"></div>
+              </div> -->
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+</div>
